@@ -1,0 +1,119 @@
+<style>
+  .header {
+    background: linear-gradient(45deg,
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ), url("<%= @restaurant.photo %>") center;
+    background-size: cover;
+  }
+</style>
+
+
+<div class="header">
+  <h1><%= @restaurant.name %></h1>
+</div>
+
+<div class="socials">
+  <% socials = {phone: @restaurant.phone, facebook: @restaurant.facebook, twitter: @restaurant.twitter, globe: @restaurant.url}.compact %>
+  <% socials.each do |k, v| %>
+  <a href="
+    <% case k %>
+    <% when :phone %>
+    <%= "tel:#{v.tr('^0-9','')}" %>
+    <% when :facebook %>
+    <%= "https://facebook.com/#{v}" %>
+    <% when :twitter %>
+    <%= "https://twitter.com/#{v}" %>
+    <% when :globe %>
+    <%= v %>
+    <% end %>
+  ">
+    <i class="fa fa-<%= k.to_s %> fa-lg"></i>
+  </a>
+  <% end %>
+</div>
+
+<% if flash[:notice] %>
+<div class="notice">
+  <%= flash[:notice] %>
+</div>
+<% end %>
+
+<div class="reviews_wrapper">
+  <% if @reviews.count == 0 %>
+  <p class="notice">No reviews posted for this place yet... be the first!</p>
+  <% end %>
+
+<% if @user && !@user_review %>
+<div class="post-review-button">
+  <%= button_to 'Post a Review', new_review_path(@restaurant.id), method: :get, class: "nav_elements", id: "new_review_button" %>
+</div>
+<% end %>
+
+<% unless @reviews.empty? %>
+
+  <% if @user && @user_review %>
+      <div class="centerer"><h4>Here's your review, <%= link_to @user.name, @user %></h4>
+
+    <div class="review">
+      <div class="review-title">
+        <%= link_to @user_review.title, @user_review %>
+      </div>
+    </div>
+  </div>
+      <section class="review-content">
+          <section class="review-title">
+            <%= @user_review.title %>
+          </section>
+          <section class="ratings">
+            <% @user_review.ratings_hash.each do |k, v| %>
+              <div class='<%= k.downcase %>-rating'>
+              <% v.times do |n| %>
+                <i class="fa fa-star"></i>
+              <% end %>
+              <% (5-v).times do |n| %>
+                <i class="fa fa-star-o"></i>
+              <% end %>
+              <%= k %>
+            </div>
+            <% end %>
+          </section>
+        <section class="review-text">
+            <%= simple_format(@user_review.content.truncate_words(100)) %>
+        </section>
+        </section>
+        <%= button_to 'Edit your review', edit_review_path(@user_review.id), method: 'get', class: 'submittable nav_elements' %>
+      </div>
+      <br>
+  <% end %>
+
+  <% @reviews.each do |review| %>
+  <% unless review.user.id == @user.id %>
+    <div class="review">
+      <div class="user-info">
+        <strong><%= link_to review.user.name, user_path(review.user) %>'s review:</strong>
+      </div>
+      <section class="review-content">
+          <section class="review-title ">
+            <%= review.title %>
+          </section>
+          <section class="ratings">
+            <% review.ratings_hash.each do |k, v| %>
+              <div class='<%= k.downcase %>-rating'>
+              <% v.times do |n| %>
+                <i class="fa fa-star"></i>
+              <% end %>
+              <%= k %>
+            </div>
+            <% end %>
+          </section>
+          <section class="review-text">
+            <%= simple_format(review.content.truncate_words(100)) %>
+        </section>
+        </section>
+      </div>
+    <% end %>
+    <br>
+  <% end %>
+<% end %>
+</div>

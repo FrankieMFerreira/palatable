@@ -1,0 +1,64 @@
+.header {
+  position: relative;
+  background-size: 100%;
+  background-position: center;
+  margin: -.5em 0 1em -.55em;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 40vh;
+}
+
+.header h1 {
+  font-family: $title-type;
+  font-size: 3em;
+  color: white;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+
+.review_list_header {
+  font-family: $monospace-type;
+  text-transform: uppercase;
+  text-align: center;
+
+}
+
+div.socials {
+  text-align: center;
+  margin: 2em;
+}
+
+a i {
+  color: black;
+  padding: 0 1em;
+}
+
+a i:hover {
+  color: $softorange;
+  transition: color .3s;
+}
+
+.reviews_wrapper {
+  @include outer-container;
+}
+
+
+#new_review_button {
+  display: block;
+  margin-right: 2.35765%;
+  width: 14.70196%;
+  margin-left: 42.64902%;
+  margin-bottom: 5em;
+}
+
+.ratings {
+  margin: 0 auto !important;
+  float: none !important;
+}

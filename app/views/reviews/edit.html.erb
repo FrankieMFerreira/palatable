@@ -1,0 +1,41 @@
+<div class="reviews_wrapper">
+<div class="full_width_wrapper">
+<h1 class="directive" id="new_review_directive">Editing a review for <%= link_to @review.restaurant.name, restaurant_path(@review.restaurant)%>
+</h1></div>
+<h5 class="directions" id="restaurant_address">
+ <%= @review.restaurant.spaced_address %>
+</h4>
+<%= form_for @review do |f| %>
+<div class="full_width_wrapper">
+    <%= f.text_field :title, required: true, placeholder: "Title", autocomplete: "off" %>
+</div>
+<div class="full_width_wrapper">
+    <%= f.text_area :content, required: true, placeholder: "Enter your review here" %>
+  </div>
+  <div class="full_width_wrapper">
+    <h4 class="directions">From 1-5...</h4>
+  </div>
+<div class="full_width_wrapper">
+  <div class="rating_labels_group">
+    <%= f.label :food_rating, "How was the food?", class: "rating_label" %>
+    <%= f.label :service_rating, "How was the service?", class: "rating_label" %>
+    <%= f.label :environment_rating, "How were the vibes?", class: "rating_label" %>
+  </div>
+</div>
+<div class="full_width_wrapper">
+  <div class="ratings_group">
+    <%= f.number_field :food_rating, in: 1..5, required: true, class: "rating_scale" %>
+    <%= f.number_field :service_rating, in: 1..5, required: true, class: "rating_scale" %>
+    <%= f.number_field :environment_rating, in: 1..5, required: true, class: "rating_scale" %>
+  </div>
+</div>
+<div class="full_width_wrapper">
+    <%= f.hidden_field :user_id, value: @user.id%>
+    <%= f.hidden_field :restaurant_id, value: @review.restaurant.id %>
+    <%= f.hidden_field :foursquare_id, value: @review.restaurant.foursquare_id %>
+    <%= f.submit "Update Review", class: 'nav_elements submittable' %>
+<% end %>
+<%= form_tag review_path, method: :delete do %>
+        <%= button_tag "Delete Review", class: 'nav_elements submittable' %>
+<% end %>
+</div>

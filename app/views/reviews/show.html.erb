@@ -1,0 +1,45 @@
+<div class="reviews_wrapper">
+    <h1 class="directive review-title" id="review_title"><%= @review.title %>
+    </h1>
+    <div class="full_width_wrapper">
+      <h4 id="byline"><%= link_to @review.user.name, user_path(@review.user)%> // <%= link_to @review.restaurant.name, @review.restaurant %>
+    </div>
+    </h4>
+    <hr class="divider" />
+    <div class="full_width_wrapper">
+    <section class="review_text">
+      <%= simple_format(@review.content.gsub(/\r\n/, '<br/>')) %>
+    </section>
+  </div>
+    <div class="full_width_wrapper">
+    <section class="show_ratings">
+    <div class="rating_labels_group">
+      <p class="rating_label">FOOD</p>
+      <p class="rating_label">SERVICE</p>
+      <p class="rating_label">ENVIRONMENT</p>
+    </div>
+    <div class="ratings_group">
+      <p class="rating_scale">
+        <% @review.food_rating.times do |n| %><i class="fa fa-star"></i><% end %><% (5 - @review.food_rating).times do |n| %><i class="fa fa-star-o"></i><% end %>
+      </p>
+    <p class="rating_scale">
+      <% @review.service_rating.times do |n| %><i class="fa fa-star"></i><% end %><% (5 - @review.service_rating).times do |n| %><i class="fa fa-star-o"></i><% end %>
+    </p>
+    <p class="rating_scale">    <% @review.environment_rating.times do |n| %><i class="fa fa-star"></i><% end %><% (5 - @review.environment_rating).times do |n| %><i class="fa fa-star-o"></i><% end %></p>
+    </div>
+
+    </section>
+    </div>
+
+  <div class="full_width_wrapper centerer">
+    <% if @owned %>
+        <%= form_tag edit_review_path, method: 'get', class: 'review_show_buttons' do %>
+          <%= submit_tag "Edit this Review", class: 'nav_elements submittable' %>
+        <% end %>
+        <%= form_tag review_path, method: 'delete', class: 'review_show_buttons' do %>
+          <%= submit_tag "Delete this Review", class: 'nav_elements submittable' %>
+        <% end %>
+    <% end %>
+  </div>
+
+</div>
